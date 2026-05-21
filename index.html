@@ -175,10 +175,9 @@
 
   <div class="overlay hidden" id="overlay">
     <div class="overlay-card">
-      <h2>Generador bloqueado</h2>
-      <p>Tu generador fue bloqueado porque alguien se metió a tu link con ese estilo.</p>
-      <p>Contacta con <strong>Cuban</strong> o con el desarrollador para restaurar el acceso.</p>
-      <button id="retry" type="button">Reintentar</button>
+      <h2>Has sido bloqueado</h2>
+      <p>Has sido bloqueado por roba cuentas hijo de perra.</p>
+      <button id="retry" type="button" disabled>No tienes acceso</button>
     </div>
   </div>
 
@@ -262,11 +261,7 @@
     }
 
     function tryAgain() {
-      overlay.classList.add('hidden');
-      loader.classList.remove('hidden');
-      setTimeout(() => {
-        loader.classList.add('hidden');
-      }, 1400);
+      // No hacer nada - usuario bloqueado
     }
 
     window.addEventListener('load', () => {
