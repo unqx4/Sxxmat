@@ -165,22 +165,6 @@
   </style>
 </head>
 <body>
-  <div class="loader" id="loader">
-    <div class="loader-card">
-      <div class="spinner"></div>
-      <h2>Verificando acceso</h2>
-      <p>Tu generador está comprobando el enlace. Si fue bloqueado, contacta con Cuban o con el desarrollador.</p>
-    </div>
-  </div>
-
-  <div class="overlay hidden" id="overlay">
-    <div class="overlay-card">
-      <h2>Has sido bloqueado</h2>
-      <p>Has sido bloqueado por roba cuentas hijo de perra.</p>
-      <button id="retry" type="button" disabled>No tienes acceso</button>
-    </div>
-  </div>
-
   <div class="card">
     <h1>Generador de Keys</h1>
     <p>Genera licencias en formato <strong>LIC-XXXXXX</strong> y elige vencimiento para 30, 7 o 1 d�a.</p>
@@ -204,7 +188,7 @@
       </label>
     </div>
 
-    <p id="status" class="note">Pulsa Generar para crear una nueva licencia. Copia el resultado al portapapeles con el bot�n Copiar.</p>
+    <p id="status" class="note">Tu generador está por 1 mes.</p>
   </div>
 
   <script>
@@ -213,10 +197,6 @@
     const copy = document.getElementById('copy');
     const result = document.getElementById('result');
     const status = document.getElementById('status');
-    const loader = document.getElementById('loader');
-    const overlay = document.getElementById('overlay');
-    const retry = document.getElementById('retry');
-    let countdownInterval = null;
 
     function randomHex(count) {
       const chars = '0123456789ABCDEF';
@@ -228,47 +208,12 @@
     }
 
     function generateKey() {
-      if (countdownInterval) {
-        return;
-      }
-
-      let seconds = 60;
-      generate.disabled = true;
-      copy.disabled = true;
-      result.value = '';
-      status.textContent = `Esperando, mirando base de datos... ${seconds} segundos restantes.`;
-
-      countdownInterval = setInterval(() => {
-        seconds -= 1;
-        if (seconds > 0) {
-          result.value = `Esperando... ${seconds} segundos restantes.`;
-          status.textContent = `Esperando, mirando base de datos... ${seconds} segundos restantes.`;
-        } else {
-          clearInterval(countdownInterval);
-          countdownInterval = null;
-          const code = 'LIC-' + randomHex(6);
-          result.value = code;
-          status.textContent = 'Esta es la key. Se activará en 1 a 10 minutos máximo.';
-          generate.disabled = false;
-          copy.disabled = false;
-        }
-      }, 1000);
+      const code = 'LIC-' + randomHex(6);
+      const days = duration.value;
+      const suffix = days === '1' ? '1 día' : days + ' días';
+      result.value = `${code} | ${suffix}`;
+      status.textContent = 'tu generador esta por 1mes';
     }
-
-    function showBlocked() {
-      loader.classList.add('hidden');
-      overlay.classList.remove('hidden');
-    }
-
-    function tryAgain() {
-      // No hacer nada - usuario bloqueado
-    }
-
-    window.addEventListener('load', () => {
-      setTimeout(showBlocked, 1400);
-    });
-
-    retry.addEventListener('click', tryAgain);
 
     generate.addEventListener('click', generateKey);
 
